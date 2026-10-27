@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Webhook Viewer</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">MICROSERVICE TOOLBOX</p>
+          <h1>Webhook Viewer</h1>
+          <p class="subtitle">Inspect incoming webhook requests as they arrive.</p>
+        </div>
+        <div class="status-wrap">
+          <span id="status-dot" class="status-dot"></span>
+          <span id="status">Connecting…</span>
+        </div>
+      </header>
+
+      <section class="endpoint-card">
+        <div>
+          <span class="label">SEND WEBHOOKS TO</span>
+          <code id="endpoint"></code>
+        </div>
+        <button id="copy" type="button">Copy URL</button>
+      </section>
+
+      <section class="toolbar">
+        <div>
+          <strong id="count">0 requests</strong>
+          <span id="empty-hint">Waiting for the first webhook</span>
+        </div>
+        <button id="clear" class="ghost" type="button">Clear all</button>
+      </section>
+
+      <section id="events" class="events" aria-live="polite"></section>
+    </main>
+
+    <template id="event-template">
+      <article class="event-card">
+        <button class="event-summary" type="button">
+          <span class="method"></span>
+          <span class="path"></span>
+          <span class="size"></span>
+          <time></time>
+          <span class="chevron">⌄</span>
+        </button>
+        <div class="event-details">
+          <div class="detail-grid">
+            <div><span class="label">CLIENT</span><code class="client"></code></div>
+            <div><span class="label">EVENT ID</span><code class="event-id"></code></div>
+          </div>
+          <h2>Body</h2>
+          <pre class="body"></pre>
+          <h2>Headers</h2>
+          <pre class="headers"></pre>
+          <h2>Query</h2>
+          <pre class="query"></pre>
+        </div>
+      </article>
+    </template>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

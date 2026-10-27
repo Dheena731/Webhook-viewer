@@ -1,0 +1,16 @@
+services:
+  webhook-viewer:
+    build: .
+    image: webhook-viewer:local
+    container_name: webhook-viewer
+    restart: unless-stopped
+    ports:
+      - "${WEBHOOK_VIEWER_PORT:-8090}:8080"
+    environment:
+      MAX_EVENTS: "500"
+      MAX_BODY_BYTES: "1048576"
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    security_opt:
+      - no-new-privileges:true
