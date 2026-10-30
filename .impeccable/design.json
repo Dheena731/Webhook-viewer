@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T16:06:23.1558325+05:30",
+  "generatedAt": "2026-10-30T16:23:13.3880049+05:30",
   "title": "Design System: Thoondil",
   "extensions": {
     "shadows": [
@@ -41,6 +41,323 @@
         "displayName": "Documentation display",
         "purpose": "Self-hosted Ubuntu for documentation display and section headings."
       }
+    },
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#f8f8f8",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "Sidebar",
+        "canonical": "#f7f7f7",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#262626",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Secondary",
+        "canonical": "#555555",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#626262",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#dedede",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "action": {
+        "role": "primary",
+        "displayName": "Action",
+        "canonical": "#b54010",
+        "tonalRamp": [
+          "oklch(15% 0.0686 39.1)",
+          "oklch(26% 0.1189 39.1)",
+          "oklch(38% 0.1600 39.1)",
+          "oklch(50% 0.1600 39.1)",
+          "oklch(62% 0.1600 39.1)",
+          "oklch(74% 0.1189 39.1)",
+          "oklch(85% 0.0686 39.1)",
+          "oklch(95% 0.0229 39.1)"
+        ]
+      },
+      "action-hover": {
+        "role": "primary",
+        "displayName": "Action Hover",
+        "canonical": "#96340d",
+        "tonalRamp": [
+          "oklch(15% 0.0598 38.9)",
+          "oklch(26% 0.1037 38.9)",
+          "oklch(38% 0.1396 38.9)",
+          "oklch(50% 0.1396 38.9)",
+          "oklch(62% 0.1396 38.9)",
+          "oklch(74% 0.1037 38.9)",
+          "oklch(85% 0.0598 38.9)",
+          "oklch(95% 0.0199 38.9)"
+        ]
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "Selected",
+        "canonical": "#fff3ec",
+        "tonalRamp": [
+          "oklch(15% 0.0069 52.6)",
+          "oklch(26% 0.0119 52.6)",
+          "oklch(38% 0.0160 52.6)",
+          "oklch(50% 0.0160 52.6)",
+          "oklch(62% 0.0160 52.6)",
+          "oklch(74% 0.0119 52.6)",
+          "oklch(85% 0.0069 52.6)",
+          "oklch(95% 0.0023 52.6)"
+        ]
+      },
+      "code-surface": {
+        "role": "neutral",
+        "displayName": "Code Surface",
+        "canonical": "#fafafa",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "docs-action": {
+        "role": "primary",
+        "displayName": "Docs Action",
+        "canonical": "#315ab7",
+        "tonalRamp": [
+          "oklch(15% 0.0662 263.8)",
+          "oklch(26% 0.1148 263.8)",
+          "oklch(38% 0.1545 263.8)",
+          "oklch(50% 0.1545 263.8)",
+          "oklch(62% 0.1545 263.8)",
+          "oklch(74% 0.1148 263.8)",
+          "oklch(85% 0.0662 263.8)",
+          "oklch(95% 0.0221 263.8)"
+        ]
+      },
+      "dark-ground": {
+        "role": "neutral",
+        "displayName": "Dark Ground",
+        "canonical": "#1b1b1b",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "dark-sidebar": {
+        "role": "neutral",
+        "displayName": "Dark Sidebar",
+        "canonical": "#202020",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "dark-card": {
+        "role": "neutral",
+        "displayName": "Dark Card",
+        "canonical": "#252525",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "dark-subtle": {
+        "role": "neutral",
+        "displayName": "Dark Subtle",
+        "canonical": "#303030",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "Dark Ink",
+        "canonical": "#eeeeee",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "dark-secondary": {
+        "role": "neutral",
+        "displayName": "Dark Secondary",
+        "canonical": "#c6c6c6",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "dark-muted": {
+        "role": "neutral",
+        "displayName": "Dark Muted",
+        "canonical": "#bdbdbd",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "dark-rule": {
+        "role": "neutral",
+        "displayName": "Dark Rule",
+        "canonical": "#454545",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(50% 0.0000 89.9)",
+          "oklch(62% 0.0000 89.9)",
+          "oklch(74% 0.0000 89.9)",
+          "oklch(85% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "dark-action": {
+        "role": "primary",
+        "displayName": "Dark Action",
+        "canonical": "#ffad85",
+        "tonalRamp": [
+          "oklch(15% 0.0474 46.7)",
+          "oklch(26% 0.0822 46.7)",
+          "oklch(38% 0.1106 46.7)",
+          "oklch(50% 0.1106 46.7)",
+          "oklch(62% 0.1106 46.7)",
+          "oklch(74% 0.0822 46.7)",
+          "oklch(85% 0.0474 46.7)",
+          "oklch(95% 0.0158 46.7)"
+        ]
+      }
     }
   },
   "components": [
@@ -50,14 +367,14 @@
       "refersTo": "button-primary",
       "description": "The principal action in the viewer.",
       "html": "<button class=\"ds-primary\">Send demo</button>",
-      "css": ".ds-primary { background: var(--primary, #315ab7); color: #fff; border: 0; border-radius: 6px; padding: 8px 14px; font: 600 13px ui-sans-serif, system-ui, sans-serif; transition: background .15s; } .ds-primary:hover { background: var(--primary-hover, #25488f); } .ds-primary:focus-visible { outline: 2px solid var(--primary, #315ab7); outline-offset: 3px; }"
+      "css": ".ds-primary { background: var(--primary, #b54010); color: #fff; border: 0; border-radius: 6px; padding: 8px 14px; font: 600 13px ui-sans-serif, system-ui, sans-serif; transition: background .15s; } .ds-primary:hover { background: var(--primary-hover, #96340d); } .ds-primary:focus-visible { outline: 2px solid var(--primary, #b54010); outline-offset: 3px; }"
     },
     {
       "name": "Search field",
       "kind": "input",
       "description": "A compact bordered search field.",
       "html": "<input class=\"ds-search\" placeholder=\"Search events\" aria-label=\"Search events\">",
-      "css": ".ds-search { height: 38px; padding: 0 12px; background: var(--bg-base, #f7f8fa); color: var(--text-primary, #1c2530); border: 1px solid var(--border, #dce2e8); border-radius: 6px; font: 13px ui-sans-serif, system-ui, sans-serif; } .ds-search:focus-visible { outline: 2px solid var(--primary, #315ab7); outline-offset: 2px; }"
+      "css": ".ds-search { height: 38px; padding: 0 12px; background: var(--bg-base, #f8f8f8); color: var(--text-primary, #262626); border: 1px solid var(--border, #dedede); border-radius: 5px; font: 13px ui-sans-serif, system-ui, sans-serif; } .ds-search:focus-visible { outline: 2px solid var(--primary, #b54010); outline-offset: 2px; }"
     },
     {
       "name": "Selected event",
@@ -65,29 +382,36 @@
       "refersTo": "event-selected",
       "description": "A selected row in the request ledger.",
       "html": "<div class=\"ds-event\"><strong>POST</strong> <code>/hooks/example</code></div>",
-      "css": ".ds-event { padding: 17px 20px; background: var(--bg-selected, #edf2fc); color: var(--text-primary, #1c2530); border-bottom: 1px solid var(--border, #dce2e8); box-shadow: inset 3px 0 var(--primary, #315ab7); font: 13px ui-sans-serif, system-ui, sans-serif; } .ds-event code { font-family: ui-monospace, Consolas, monospace; }"
+      "css": ".ds-event { padding: 14px 16px; background: var(--bg-selected, #fff3ec); color: var(--text-primary, #262626); border-bottom: 1px solid var(--border, #dedede); font: 13px ui-sans-serif, system-ui, sans-serif; } .ds-event code { font-family: ui-monospace, Consolas, monospace; }"
     },
     {
       "name": "Active endpoint",
       "kind": "nav",
       "description": "The selected endpoint in the sidebar.",
       "html": "<nav><a class=\"ds-endpoint\" href=\"#endpoint\">example</a></nav>",
-      "css": ".ds-endpoint { display: block; padding: 8px 14px; border-radius: 4px; background: var(--bg-selected, #edf2fc); color: var(--text-primary, #1c2530); font: 13px ui-sans-serif, system-ui, sans-serif; text-decoration: none; } .ds-endpoint:hover { background: var(--bg-hover, #e9edf3); } .ds-endpoint:focus-visible { outline: 2px solid var(--primary, #315ab7); outline-offset: 2px; }"
+      "css": ".ds-endpoint { display: block; padding: 8px 14px; border-radius: 4px; background: var(--bg-selected, #fff3ec); color: var(--primary, #b54010); font: 13px ui-sans-serif, system-ui, sans-serif; text-decoration: none; } .ds-endpoint:hover { background: var(--bg-hover, #ededed); } .ds-endpoint:focus-visible { outline: 2px solid var(--primary, #b54010); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost button",
+      "kind": "button",
+      "description": "A secondary action with a bordered surface.",
+      "html": "<button class=\"ds-ghost\">Copy JSON</button>",
+      "css": ".ds-ghost { padding: 5px 10px; border: 1px solid var(--border, #dedede); border-radius: 6px; background: var(--bg-card, #fff); color: var(--text-secondary, #555); font: 500 12px ui-sans-serif, system-ui, sans-serif; } .ds-ghost:hover { background: var(--bg-hover, #ededed); } .ds-ghost:focus-visible { outline: 2px solid var(--primary, #b54010); outline-offset: 2px; }"
     }
   ],
   "narrative": {
-    "northStar": "The Request Ledger",
-    "overview": "A precise developer tool and technical manual. Data leads, supported by fine rules, restrained color, and clear alignment.",
+    "northStar": "The Webhook Workbench",
+    "overview": "Thoondil uses familiar API client conventions to keep the request stream and inspector easy to navigate. Neutral surfaces, compact controls, and clear dividers put the request data first; the hook identity remains distinct.",
     "keyCharacteristics": [
-      "Dense, scannable request rows",
-      "Quiet hook identity",
-      "Ubuntu documentation headings, system sans-serif interface, and monospace technical values",
+      "Compact workspace navigation and request stream",
+      "Orange action and warm selection on neutral surfaces",
+      "Self-hosted Ubuntu documentation headings, system sans-serif interface, and monospace technical values",
       "Flat surfaces and fine dividers"
     ],
     "dos": [
-      "Keep request details more prominent than decoration.",
-      "Pair status color with text and preserve visible focus.",
-      "Respect reduced-motion preferences."
+      "Keep method, path, time, body, and response more prominent than decoration.",
+      "Pair status color with text, preserve visible focus, and respect reduced-motion preferences.",
+      "Use monospace for technical values and sans-serif for prose and labels."
     ],
     "donts": [
       "Do not surround routine ledger content with floating cards."
