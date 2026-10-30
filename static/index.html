@@ -105,7 +105,7 @@
       <!-- LEFT SIDEBAR: Channels & Rules -->
       <aside class="sidebar" id="mobile-tools" aria-label="Sidebar navigation">
         <div class="sidebar-header">
-          <span class="sidebar-title">Endpoints &amp; Rules</span>
+          <span class="sidebar-title">Workspace</span>
           <button id="btn-add-mock" class="btn-icon-subtle" title="Create response mocking rule">
             <svg viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
             <span class="sr-only">Add Mock Rule</span>
@@ -115,7 +115,7 @@
         <!-- Endpoints Group -->
         <div class="sidebar-section">
           <div class="sidebar-section-header">
-            <div class="sidebar-label">CHANNELS</div>
+            <div class="sidebar-label">Endpoints</div>
             <button id="btn-add-channel" class="btn-icon-subtle" title="Create a new named channel">
               <svg viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
               <span class="sr-only">Add Channel</span>
@@ -124,7 +124,7 @@
           <ul id="channel-list" class="channel-list">
             <li class="channel-item active" data-channel="all" role="button" tabindex="0">
               <span class="channel-icon">◈</span>
-              <span class="channel-name">All Inbound Events</span>
+              <span class="channel-name">All requests</span>
               <span class="channel-badge" id="badge-all">0</span>
             </li>
           </ul>
@@ -148,7 +148,7 @@
 
         <!-- Mock Rules -->
         <div class="sidebar-section">
-          <div class="sidebar-label">MOCKING RULES</div>
+          <div class="sidebar-label">Mock responses</div>
           <ul id="mock-rules-list" class="mock-rules-list">
             <li class="mock-empty">No active mock rules · <a href="#" id="mock-empty-add" class="mock-add-link">+ Add one</a></li>
           </ul>
@@ -210,6 +210,7 @@
       <!-- RIGHT PANE: Event Inspector -->
       <section class="inspector-pane" id="inspector" aria-label="Request details inspector">
         <button id="btn-back-feed" class="mobile-back" type="button">← Back to requests</button>
+        <div class="workbench-bar"><span>Request inspector</span><span class="workbench-context">Local workspace</span></div>
         <!-- Inspector Unselected State -->
         <div id="inspector-empty" class="inspector-empty">
           <div class="inspector-empty-inner">
@@ -261,7 +262,7 @@
             <!-- Forward / Replay to Localhost -->
             <div class="replay-group">
               <div class="replay-input-wrap">
-                <span class="replay-prefix">TARGET:</span>
+              <span class="replay-prefix">Replay to</span>
                 <input id="replay-url" type="text" aria-label="Replay target URL" placeholder="http://localhost:3000/webhook" class="replay-input" spellcheck="false" />
               </div>
               <button id="btn-replay" class="btn-primary btn-replay" title="Forward this captured event to your local app">
@@ -286,7 +287,7 @@
               <span id="tab-headers-count" class="tab-badge-num">0</span>
             </button>
             <button class="tab-btn" data-tab="query" role="tab" aria-selected="false">
-              <span>Params</span>
+            <span>Query Params</span>
               <span id="tab-query-count" class="tab-badge-num">0</span>
             </button>
             <button class="tab-btn" data-tab="raw" role="tab" aria-selected="false">
