@@ -337,6 +337,12 @@ function updateChannels() {
       <span class="channel-name" title="${escapedHtml(path)}">${escapedHtml(path)}</span>
       <span class="channel-badge">${count}</span>`;
     li.addEventListener('click', () => setChannel(path));
+    li.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        li.click();
+      }
+    });
     dom.channelList.appendChild(li);
   }
 }
@@ -358,6 +364,19 @@ function setChannel(channel) {
   ].join('\n');
 
   applyFilters();
+}
+
+function setWorkspaceView(view) {
+  const workspace = $('.workspace');
+  document.body.classList.remove('mobile-menu-open');
+  $('#btn-mobile-menu').setAttribute('aria-expanded', 'false');
+  workspace.classList.toggle('show-endpoints', view === 'endpoints');
+  workspace.classList.remove('mobile-detail');
+  $$('.rail-button').forEach(button => {
+    const active = button.dataset.workspaceView === view;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
 }
 
 // ── Filtering ──────────────────────────────────────────────
@@ -393,6 +412,7 @@ function applyFilters() {
 function renderEventList() {
   dom.eventCount.textContent = `${state.filtered.length} ${state.filtered.length === 1 ? 'request' : 'requests'}`;
   dom.emptyState.hidden = state.events.length > 0;
+  $('#no-results').hidden = state.events.length === 0 || state.filtered.length > 0;
 
   dom.eventList.innerHTML = '';
   for (let i = 0; i < state.filtered.length; i++) {
@@ -500,6 +520,9 @@ function selectEvent(id, openMobile = true) {
   dom.inspMethod.className = `method-badge ${methodClass(event.method)}`;
   dom.inspMethod.textContent = event.method;
   dom.inspPath.textContent = event.path;
+  $('#workbench-title').textContent = event.path;
+  $('#workbench-method').textContent = event.method;
+  $('#workbench-method').dataset.method = event.method;
   dom.inspTime.textContent = new Date(event.receivedAt).toLocaleTimeString();
   dom.inspTime.title = event.receivedAt;
   dom.inspSize.textContent = formatBytes(event.sizeBytes);
@@ -581,15 +604,30 @@ $$('.tab-btn').forEach(btn => {
     $$('.tab-btn').forEach(b => {
       b.classList.remove('active');
       b.setAttribute('aria-selected', 'false');
+      b.tabIndex = -1;
     });
     $$('.tab-pane').forEach(p => p.hidden = true);
 
     btn.classList.add('active');
     btn.setAttribute('aria-selected', 'true');
+    btn.tabIndex = 0;
     const tabId = `tab-${btn.dataset.tab}`;
     const targetPane = $(`#${tabId}`);
     if (targetPane) targetPane.hidden = false;
     renderTab(btn.dataset.tab);
+  });
+  btn.addEventListener('keydown', e => {
+    const tabs = $$('.tab-btn');
+    const index = tabs.indexOf(btn);
+    let next;
+    if (e.key === 'ArrowRight') next = (index + 1) % tabs.length;
+    else if (e.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = tabs.length - 1;
+    else return;
+    e.preventDefault();
+    tabs[next].click();
+    tabs[next].focus();
   });
 });
 
@@ -1006,6 +1044,8 @@ function initEvents() {
     await fetch('/api/events', { method: 'DELETE' });
     state.events = [];
     state.selectedId = null;
+    $('#workbench-title').textContent = 'Request inspector';
+    $('#workbench-method').textContent = '';
     state.filtered = [];
     $('.workspace').classList.remove('mobile-detail');
     dom.inspectorEmpty.hidden = false;
@@ -1016,6 +1056,12 @@ function initEvents() {
 
   // Channel 'All' click
   $('.channel-item[data-channel="all"]').addEventListener('click', () => setChannel('all'));
+  $('.channel-item[data-channel="all"]').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.currentTarget.click();
+    }
+  });
 
   // Relative timestamp refresh every 15s
   setInterval(() => {
@@ -1030,6 +1076,16 @@ function initEvents() {
 applyTheme(state.theme);
 
 const mobileMenuButton = document.getElementById('btn-mobile-menu');
+$$('.rail-button').forEach(button => button.addEventListener('click', () => setWorkspaceView(button.dataset.workspaceView)));
+$('#btn-clear-filters').addEventListener('click', () => {
+  dom.searchInput.value = '';
+  dom.methodFilter.value = '';
+  setChannel('all');
+  dom.searchInput.focus();
+});
+dom.channelList.addEventListener('click', event => {
+  if (event.target.closest('.channel-item')) setWorkspaceView('requests');
+});
 mobileMenuButton.addEventListener('click', () => {
   const open = document.body.classList.toggle('mobile-menu-open');
   mobileMenuButton.setAttribute('aria-expanded', String(open));

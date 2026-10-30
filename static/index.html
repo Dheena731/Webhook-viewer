@@ -42,7 +42,7 @@
       </div>
 
       <div class="topbar-right">
-        <button id="btn-mobile-menu" class="btn-ghost mobile-menu-button" type="button" aria-expanded="false" aria-controls="mobile-tools">Menu</button>
+        <button id="btn-mobile-menu" class="btn-ghost mobile-menu-button" type="button" aria-expanded="false" aria-controls="mobile-utilities">Menu</button>
         <!-- Live Connection Status -->
         <div class="connection-pill" id="conn-pill" title="Server-Sent Events Realtime Stream">
           <span id="status-dot" class="status-dot online"></span>
@@ -91,7 +91,7 @@
       </div>
     </header>
 
-    <div class="mobile-utilities" aria-label="Utilities">
+    <div class="mobile-utilities" id="mobile-utilities" aria-label="Utilities">
       <button type="button" data-action="btn-export">Export</button>
       <button type="button" data-action="btn-clear">Clear</button>
       <button type="button" data-action="btn-theme-toggle">Theme</button>
@@ -101,6 +101,14 @@
     </div>
     <!-- Main 3-pane layout -->
     <div class="workspace">
+      <nav class="workspace-rail" aria-label="Workspace sections">
+        <button type="button" class="rail-button active" data-workspace-view="requests" aria-pressed="true" aria-controls="request-history">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16M8 13h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Requests</span>
+        </button>
+        <button type="button" class="rail-button" data-workspace-view="endpoints" aria-pressed="false" aria-controls="mobile-tools">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 6h14v12H5zM9 6v12M12 10h4M12 14h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Endpoints</span>
+        </button>
+      </nav>
 
       <!-- LEFT SIDEBAR: Channels & Rules -->
       <aside class="sidebar" id="mobile-tools" aria-label="Sidebar navigation">
@@ -166,9 +174,10 @@
       </aside>
 
       <!-- MIDDLE PANE: Event Stream List -->
-      <section class="event-list-pane" aria-label="Incoming webhooks feed">
+      <section class="event-list-pane" id="request-history" aria-label="Incoming webhooks feed">
         <div class="event-list-header">
           <div class="event-list-title-wrap">
+            <strong class="history-heading">Requests</strong>
             <span id="event-count" class="event-count">0 requests</span>
             <span id="stream-pulse" class="stream-pulse-active" title="Streaming live events"></span>
           </div>
@@ -205,12 +214,13 @@
 
         <!-- Event List -->
         <ul id="event-list" class="event-list" role="listbox" aria-label="Captured webhooks"></ul>
+        <div id="no-results" class="no-results" hidden><h3>No matching requests</h3><p>Try another search or clear the filters.</p><button id="btn-clear-filters" type="button" class="btn-ghost">Clear filters</button></div>
       </section>
 
       <!-- RIGHT PANE: Event Inspector -->
       <section class="inspector-pane" id="inspector" aria-label="Request details inspector">
         <button id="btn-back-feed" class="mobile-back" type="button">← Back to requests</button>
-        <div class="workbench-bar"><span>Request inspector</span><span class="workbench-context">Local workspace</span></div>
+        <div class="workbench-bar"><span class="workbench-tab"><span id="workbench-method"></span><span id="workbench-title">Request inspector</span></span><span class="workbench-context">Local workspace</span></div>
         <!-- Inspector Unselected State -->
         <div id="inspector-empty" class="inspector-empty">
           <div class="inspector-empty-inner">
@@ -278,19 +288,19 @@
 
           <!-- Inspector Tabs -->
           <div class="inspector-tabs" role="tablist">
-            <button class="tab-btn active" data-tab="body" role="tab" aria-selected="true">
+            <button id="inspector-tab-body" class="tab-btn active" data-tab="body" role="tab" aria-selected="true" aria-controls="tab-body">
               <span>Body</span>
               <span id="tab-body-badge" class="tab-badge">JSON</span>
             </button>
-            <button class="tab-btn" data-tab="headers" role="tab" aria-selected="false">
+            <button id="inspector-tab-headers" class="tab-btn" data-tab="headers" role="tab" aria-selected="false" aria-controls="tab-headers" tabindex="-1">
               <span>Headers</span>
               <span id="tab-headers-count" class="tab-badge-num">0</span>
             </button>
-            <button class="tab-btn" data-tab="query" role="tab" aria-selected="false">
+            <button id="inspector-tab-query" class="tab-btn" data-tab="query" role="tab" aria-selected="false" aria-controls="tab-query" tabindex="-1">
             <span>Query Params</span>
               <span id="tab-query-count" class="tab-badge-num">0</span>
             </button>
-            <button class="tab-btn" data-tab="raw" role="tab" aria-selected="false">
+            <button id="inspector-tab-raw" class="tab-btn" data-tab="raw" role="tab" aria-selected="false" aria-controls="tab-raw" tabindex="-1">
               <span>Raw</span>
             </button>
           </div>
@@ -298,7 +308,7 @@
           <!-- Tab Panels -->
           <div class="tab-content">
             <!-- BODY TAB -->
-            <div id="tab-body" class="tab-pane active" role="tabpanel">
+            <div id="tab-body" class="tab-pane active" role="tabpanel" aria-labelledby="inspector-tab-body">
               <div class="body-toolbar">
                 <div class="body-toolbar-left">
                   <span id="body-format-badge" class="format-badge format-json">JSON</span>
@@ -315,7 +325,7 @@
             </div>
 
             <!-- HEADERS TAB -->
-            <div id="tab-headers" class="tab-pane" role="tabpanel" hidden>
+            <div id="tab-headers" class="tab-pane" role="tabpanel" aria-labelledby="inspector-tab-headers" hidden>
               <div class="pane-toolbar">
                 <span class="pane-toolbar-title">INCOMING HTTP HEADERS</span>
                 <span class="redact-note">⚠️ Sensitive values like Authorization, Cookie, API keys are auto-redacted</span>
@@ -324,7 +334,7 @@
             </div>
 
             <!-- QUERY PARAMS TAB -->
-            <div id="tab-query" class="tab-pane" role="tabpanel" hidden>
+            <div id="tab-query" class="tab-pane" role="tabpanel" aria-labelledby="inspector-tab-query" hidden>
               <div class="pane-toolbar">
                 <span class="pane-toolbar-title">URL QUERY PARAMETERS</span>
               </div>
@@ -332,7 +342,7 @@
             </div>
 
             <!-- RAW TAB -->
-            <div id="tab-raw" class="tab-pane" role="tabpanel" hidden>
+            <div id="tab-raw" class="tab-pane" role="tabpanel" aria-labelledby="inspector-tab-raw" hidden>
               <div class="body-toolbar">
                 <span class="pane-toolbar-title">FULL JSON REPRESENTATION</span>
                 <button id="btn-copy-raw" class="btn-copy-small">

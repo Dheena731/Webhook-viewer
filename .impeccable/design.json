@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T16:23:13.3880049+05:30",
+  "generatedAt": "2026-10-30T16:27:29.4894512+05:30",
   "title": "Design System: Thoondil",
   "extensions": {
     "shadows": [
@@ -24,7 +24,7 @@
     ],
     "breakpoints": [
       {
-        "name": "viewer-menu",
+        "name": "compact-workspace",
         "value": "960px"
       },
       {
@@ -397,13 +397,20 @@
       "description": "A secondary action with a bordered surface.",
       "html": "<button class=\"ds-ghost\">Copy JSON</button>",
       "css": ".ds-ghost { padding: 5px 10px; border: 1px solid var(--border, #dedede); border-radius: 6px; background: var(--bg-card, #fff); color: var(--text-secondary, #555); font: 500 12px ui-sans-serif, system-ui, sans-serif; } .ds-ghost:hover { background: var(--bg-hover, #ededed); } .ds-ghost:focus-visible { outline: 2px solid var(--primary, #b54010); outline-offset: 2px; }"
+    },
+    {
+      "name": "Workspace navigation",
+      "kind": "nav",
+      "description": "Switches between request history and endpoint management.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace sections\"><button class=\"ds-nav-active\" aria-pressed=\"true\">Requests</button><button aria-pressed=\"false\">Endpoints</button></nav>",
+      "css": ".ds-nav { display: flex; gap: 4px; padding: 4px; background: var(--bg-sidebar, #f7f7f7); } .ds-nav button { border: 0; border-radius: 4px; padding: 8px 10px; color: var(--text-secondary, #555); background: transparent; font: 12px ui-sans-serif, system-ui, sans-serif; } .ds-nav .ds-nav-active { background: var(--bg-selected, #fff3ec); color: var(--primary, #b54010); font-weight: 700; } .ds-nav button:hover { background: var(--bg-hover, #ededed); } .ds-nav button:focus-visible { outline: 2px solid var(--primary, #b54010); outline-offset: 2px; }"
     }
   ],
   "narrative": {
     "northStar": "The Webhook Workbench",
     "overview": "Thoondil uses familiar API client conventions to keep the request stream and inspector easy to navigate. Neutral surfaces, compact controls, and clear dividers put the request data first; the hook identity remains distinct.",
     "keyCharacteristics": [
-      "Compact workspace navigation and request stream",
+      "Workspace rail switching between request history and endpoints",
       "Orange action and warm selection on neutral surfaces",
       "Self-hosted Ubuntu documentation headings, system sans-serif interface, and monospace technical values",
       "Flat surfaces and fine dividers"

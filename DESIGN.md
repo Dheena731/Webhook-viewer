@@ -71,7 +71,7 @@ Self-hosted Ubuntu carries documentation display and section headings; system sa
 
 ## Layout
 
-The viewer uses a 240px sidebar, a 280–340px event stream, and a flexible inspector below a 64px top bar. The inspector has a workbench header, request details, replay controls, and content tabs. At 960px the sidebar becomes a mobile menu and the workspace has two columns; at 680px it becomes one column and the top bar grows to 108px. The documentation wrapper is capped at 1320px; its hero and section headings use two columns until their responsive breakpoints.
+The viewer uses a 64px navigation rail, a 320px switchable request or endpoint sidebar, and a flexible inspector below a 64px top bar. The inspector has a request header, replay controls, and content tabs. At 680px the rail becomes a horizontal navigation row, and the selected request opens in place of the sidebar. The top bar grows to 108px. The documentation wrapper is capped at 1320px; its hero and section headings use two columns until their responsive breakpoints.
 
 ## Elevation & Depth
 
@@ -86,7 +86,7 @@ Small radii keep controls and containers practical: 4px for compact elements, 6p
 - **Buttons:** Primary actions use orange with white text, a darker hover, and a modest radius. In dark mode, primary button text is dark for contrast. Ghost actions remain visually quiet.
 - **Search and fields:** Inputs have a bordered surface. Focus is visibly marked with the action color; toggle focus has a 2px outline and 3px offset.
 - **Event rows:** Full-width request rows use dividers; selection adds a pale warm wash.
-- **Navigation:** The sidebar indexes endpoints and rules. The active item uses a selection wash. On narrower screens the menu opens as a fixed panel.
+- **Navigation:** A rail switches between request history and the endpoint and mock response sidebar. The active section uses a selection wash. On narrow screens it becomes a horizontal row.
 - **Inspector:** The selected request gets the flexible main area, with a workbench header, replay bar, tabs, and a light monospace body viewer in the light theme.
 
 ## Do's and Don'ts
