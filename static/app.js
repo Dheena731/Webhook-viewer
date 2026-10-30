@@ -1028,6 +1028,19 @@ function initEvents() {
 
 // ── Startup ────────────────────────────────────────────────
 applyTheme(state.theme);
+
+const mobileMenuButton = document.getElementById('btn-mobile-menu');
+mobileMenuButton.addEventListener('click', () => {
+  const open = document.body.classList.toggle('mobile-menu-open');
+  mobileMenuButton.setAttribute('aria-expanded', String(open));
+});
+document.querySelectorAll('.mobile-utilities [data-action]').forEach(button => {
+  button.addEventListener('click', () => {
+    document.body.classList.remove('mobile-menu-open');
+    mobileMenuButton.setAttribute('aria-expanded', 'false');
+    document.getElementById(button.dataset.action).click();
+  });
+});
 updateSoundUI();
 initEvents();
 

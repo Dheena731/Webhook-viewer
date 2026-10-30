@@ -8,6 +8,7 @@
   <title>Thoondil — Catch the request. Find the failure.</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="redesign.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -21,18 +22,18 @@
   <main id="main">
     <section class="hero wrap" id="top">
       <div class="hero-copy">
-        <h1>Catch the request.<br><em>Find the failure.</em></h1>
+        <h1>See what your webhook<br><em>actually sent.</em></h1>
         <p>Thoondil <span lang="ta">(தூண்டில்)</span> gives webhook developers a clear view of what arrived and a fast way to send its original body to a local handler.</p>
         <div class="hero-actions"><a class="button button-main" href="#quickstart">Run it locally <span aria-hidden="true">↓</span></a><a class="button button-quiet" href="https://github.com/Dheena731/Webhook-viewer">Browse the source ↗</a></div>
-        <div class="hero-facts"><span>No account</span><span>No database</span><span>Python standard library</span></div>
+        <div class="hero-facts"><span>Local-first</span><span>Open source</span><span>Python standard library</span></div>
       </div>
-      <div class="hero-frame"><div class="frame-bar"><span class="frame-dots"><i></i><i></i><i></i></span><span>localhost / requests</span><span class="frame-live">● LIVE</span></div><img src="assets/app-desktop.jpg" alt="Real Thoondil desktop application showing captured webhooks and a payment failure JSON body" width="1600" height="900"></div>
+      <div class="hero-frame"><div class="frame-bar"><span class="frame-dots"><i></i><i></i><i></i></span><span>localhost / requests</span><span class="frame-live">● LIVE</span></div><img src="assets/app-desktop.jpg" alt="Thoondil showing a sample order webhook and its JSON body" width="1600" height="900"></div>
     </section>
     <section class="proof"><div class="wrap proof-grid"><p><strong>Receive</strong><span>Give each integration a path such as <code>/hooks/orders</code>.</span></p><p><strong>Inspect</strong><span>Read the method, body, headers, query, and response status in one place.</span></p><p><strong>Replay</strong><span>Send the original body bytes to a local target and see its HTTP response.</span></p></div></section>
     <section class="section wrap" id="quickstart">
       <div class="section-head"><h2>From clone to first request.</h2><p>Pick one way to run the receiver. Then send a sample request or use the app’s <strong>Send Demo</strong> button.</p></div>
       <div class="steps">
-        <article class="step"><div class="step-top"><span>01 / RUN WITH PYTHON</span><span>Python 3.10+</span></div><pre><code>git clone https://github.com/Dheena731/Webhook-viewer.git
+        <article class="step"><div class="step-top"><span>RUN WITH PYTHON</span><span>Python 3.10+</span></div><pre><code>git clone https://github.com/Dheena731/Webhook-viewer.git
 cd Webhook-viewer
 python3 server.py</code></pre><p>Open <a href="http://localhost:8080">localhost:8080</a>. The receiver binds to <code>127.0.0.1</code> by default.</p></article>
         <article class="step"><div class="step-top"><span>ALTERNATIVE / DOCKER</span><span>Compose</span></div><pre><code>git clone https://github.com/Dheena731/Webhook-viewer.git
@@ -43,7 +44,7 @@ docker compose up --build -d</code></pre><p>Open <a href="http://localhost:8090"
   -H 'Content-Type: application/json' \
   -d '{"event":"order.created","id":"ord_42"}'</code></pre></div>
     </section>
-    <section class="section workflow" id="workflow"><div class="wrap"><div class="section-head"><h2>Stay in the debugging loop.</h2><p>The workspace keeps the incoming feed and request details close together. On a narrow screen, tap a request to open its inspector.</p></div><div class="workflow-layout"><div class="workflow-points"><div><span>01</span><h3>Separate by path</h3><p>Named paths keep orders, payments, and test traffic easy to find. Search body text, headers, method, or path when the feed grows.</p></div><div><span>02</span><h3>Read the full context</h3><p>Inspect decoded JSON, form data, binary data represented as Base64, redacted headers, query parameters, and the captured response status.</p></div><div><span>03</span><h3>Reproduce the handler result</h3><p>Replay to an HTTP(S) localhost target. Thoondil sends the original body bytes, then reports the target’s status and response excerpt.</p></div></div><div class="mobile-pair"><img src="assets/app-mobile-feed.jpg" alt="Real mobile feed showing a captured webhook" width="390" height="844"><img src="assets/app-mobile-detail.jpg" alt="Real mobile inspector showing request details and JSON body" width="390" height="844"></div></div></div></section>
+    <section class="section workflow" id="workflow"><div class="wrap"><div class="section-head"><h2>Stay in the debugging loop.</h2><p>The workspace keeps the incoming feed and request details close together. On a narrow screen, tap a request to open its inspector.</p></div><div class="workflow-layout"><div class="workflow-points"><div><h3>Separate by path</h3><p>Named paths keep orders, payments, and test traffic easy to find. Search body text, headers, method, or path when the feed grows.</p></div><div><h3>Read the full context</h3><p>Inspect decoded JSON, form data, binary data represented as Base64, redacted headers, query parameters, and the captured response status.</p></div><div><h3>Reproduce the handler result</h3><p>Replay to an HTTP(S) localhost target. Thoondil sends the original body bytes, then reports the target’s status and response excerpt.</p></div></div><div class="mobile-pair"><img src="assets/app-mobile-feed.jpg" alt="Real mobile feed showing a captured webhook" width="390" height="844"><img src="assets/app-mobile-detail.jpg" alt="Real mobile inspector showing request details and JSON body" width="390" height="844"></div></div></div></section>
     <section class="section wrap" id="reference"><div class="section-head"><h2>HTTP interface.</h2><p>The browser UI uses the same endpoints you can call from scripts. All events and rules are held in memory.</p></div><div class="table-wrap"><table><thead><tr><th>Method</th><th>Path</th><th>Purpose</th></tr></thead><tbody>
       <tr><td>GET, POST, PUT, PATCH, DELETE</td><td><code>/hooks/&lt;name&gt;</code></td><td>Capture an incoming request. <code>/webhooks/&lt;name&gt;</code> is an alias.</td></tr>
       <tr><td>GET</td><td><code>/api/events</code></td><td>List events; filter with <code>q</code>, <code>method</code>, or <code>path</code>.</td></tr>

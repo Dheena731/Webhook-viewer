@@ -6,6 +6,7 @@
     <title>Thoondil — Webhook Inspector</title>
     <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
     <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="/static/redesign.css" />
   </head>
   <body>
     <!-- Top Navigation Bar -->
@@ -26,10 +27,10 @@
             <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/>
             <path d="M13 13l3.8 3.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
-          <input type="text" id="search-input" placeholder="Search events by path, body, headers… (Press /)" autocomplete="off" spellcheck="false" />
+          <input type="text" id="search-input" aria-label="Search events" placeholder="Search events by path, body, headers… (Press /)" autocomplete="off" spellcheck="false" />
           <div class="search-filters">
             <select id="method-filter" title="Filter by HTTP method">
-              <option value="">All Verbs</option>
+              <option value="">All methods</option>
               <option value="GET">GET</option>
               <option value="POST">POST</option>
               <option value="PUT">PUT</option>
@@ -41,6 +42,7 @@
       </div>
 
       <div class="topbar-right">
+        <button id="btn-mobile-menu" class="btn-ghost mobile-menu-button" type="button" aria-expanded="false" aria-controls="mobile-tools">Menu</button>
         <!-- Live Connection Status -->
         <div class="connection-pill" id="conn-pill" title="Server-Sent Events Realtime Stream">
           <span id="status-dot" class="status-dot online"></span>
@@ -48,7 +50,7 @@
         </div>
 
         <!-- 1-Click Send Test Webhook -->
-        <button id="btn-send-demo" class="btn-topbar btn-demo" title="Send a sample webhook event right now (Key: T)">
+        <button id="btn-send-demo" class="btn-topbar btn-demo" aria-label="Send demo request" title="Send a sample webhook event right now (Key: T)">
           <svg viewBox="0 0 16 16" fill="none"><path d="M9 1L3 9h5l-1 6 7-9H9V1z" fill="currentColor"/></svg>
           <span>Send Demo</span>
         </button>
@@ -89,11 +91,19 @@
       </div>
     </header>
 
+    <div class="mobile-utilities" aria-label="Utilities">
+      <button type="button" data-action="btn-export">Export</button>
+      <button type="button" data-action="btn-clear">Clear</button>
+      <button type="button" data-action="btn-theme-toggle">Theme</button>
+      <button type="button" data-action="btn-sound-toggle">Sound</button>
+      <button type="button" data-action="btn-shortcuts">Shortcuts</button>
+      <a href="/docs/">Docs</a>
+    </div>
     <!-- Main 3-pane layout -->
     <div class="workspace">
 
       <!-- LEFT SIDEBAR: Channels & Rules -->
-      <aside class="sidebar" aria-label="Sidebar navigation">
+      <aside class="sidebar" id="mobile-tools" aria-label="Sidebar navigation">
         <div class="sidebar-header">
           <span class="sidebar-title">Endpoints &amp; Rules</span>
           <button id="btn-add-mock" class="btn-icon-subtle" title="Create response mocking rule">
@@ -172,12 +182,13 @@
 
         <!-- Empty State -->
         <div id="empty-state" class="empty-state">
-          <h3 class="empty-title">Waiting for your first webhook</h3>
-          <p class="empty-desc">Send HTTP requests to your endpoint, or click below to trigger a live sample right away.</p>
+          <div class="empty-rule" aria-hidden="true"><span>INBOX / LIVE</span><span>0 RECEIVED</span></div>
+          <h3 class="empty-title">No requests yet.</h3>
+          <p class="empty-desc">Send a webhook to your endpoint to see its payload, headers, and response here.</p>
 
           <button id="btn-empty-demo" class="btn-primary btn-demo-large">
             <svg viewBox="0 0 16 16" fill="none"><path d="M9 1L3 9h5l-1 6 7-9H9V1z" fill="currentColor"/></svg>
-            <span>Trigger Demo Webhook</span>
+            <span>Send a sample request</span>
           </button>
 
           <div class="curl-box">
@@ -201,13 +212,11 @@
         <button id="btn-back-feed" class="mobile-back" type="button">← Back to requests</button>
         <!-- Inspector Unselected State -->
         <div id="inspector-empty" class="inspector-empty">
-          <div class="inspector-empty-icon">
-            <svg viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 3"/>
-              <path d="M24 16v10l6 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <div class="inspector-empty-inner">
+            <h2>No request selected</h2>
+            <p class="inspector-empty-text">Choose a request from the stream. Its body, headers, query, and replay controls will appear here.</p>
+            <div class="inspector-empty-preview" aria-hidden="true"><span>METHOD</span><span>PATH</span><span>RECEIVED</span><span>BODY</span></div>
           </div>
-          <p class="inspector-empty-text">Select an event from the feed to inspect headers, JSON payloads, and query parameters</p>
         </div>
 
         <!-- Inspector Content -->
@@ -253,7 +262,7 @@
             <div class="replay-group">
               <div class="replay-input-wrap">
                 <span class="replay-prefix">TARGET:</span>
-                <input id="replay-url" type="text" placeholder="http://localhost:3000/webhook" class="replay-input" spellcheck="false" />
+                <input id="replay-url" type="text" aria-label="Replay target URL" placeholder="http://localhost:3000/webhook" class="replay-input" spellcheck="false" />
               </div>
               <button id="btn-replay" class="btn-primary btn-replay" title="Forward this captured event to your local app">
                 <svg viewBox="0 0 16 16" fill="none"><path d="M14 8A6 6 0 112 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 4v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -353,9 +362,9 @@
           <p class="modal-intro">Inject custom HTTP response status codes and mock bodies for matching incoming webhook calls.</p>
           <div class="form-row">
             <div class="form-group flex-2">
-              <label for="mock-path">Path Match (contains)</label>
+              <label for="mock-path">Exact path</label>
               <input id="mock-path" type="text" placeholder="/hooks/orders" spellcheck="false" />
-              <span class="form-hint">E.g. `/orders` or `/payments`</span>
+              <span class="form-hint">For example, /hooks/orders</span>
             </div>
             <div class="form-group flex-1">
               <label for="mock-method">Method</label>
@@ -372,7 +381,7 @@
           <div class="form-row">
             <div class="form-group flex-1">
               <label for="mock-status">Response HTTP Status</label>
-              <input id="mock-status" type="number" value="200" min="100" max="599" />
+              <input id="mock-status" type="number" value="200" min="200" max="599" />
             </div>
             <div class="form-group flex-2">
               <label>Intercept Mode</label>

@@ -1,0 +1,54 @@
+/* A technical manual: restrained paper, ink, and a single action color. */
+@font-face { font-family:"Ubuntu"; src:url("assets/Ubuntu.ttf") format("truetype"); font-weight:100 900; font-style:normal; font-display:swap; }
+:root { --ink:#1c2530; --muted:#536171; --teal:#315ab7; --mint:#b6caff; --line:#dce2e8; --paper:#fff; --ground:#f4f6f8; --code:#1c2530; }
+body { background:#f7f8fa; color:var(--ink); }
+::selection { background:#c9d8fa; }
+.wrap { max-width:1320px; }
+.site-header { background:#fff; }
+.nav { height:64px; }
+.brand { font-size:20px; letter-spacing:-.025em; }
+.brand img { width:30px; height:30px; }
+.nav nav a,.nav-github { font-size:13px; font-weight:600; }
+.nav-github { border-radius:4px; }
+.hero { display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:64px; align-items:center; padding-top:100px; padding-bottom:100px; }
+.hero-copy { max-width:none; }
+h1 { font-family:"Ubuntu",sans-serif; font-size:clamp(2.8rem,4.4vw,4.2rem); font-weight:700; line-height:1.08; letter-spacing:-.035em; }
+h1 em { color:var(--teal); }
+.hero-copy>p { font-size:17px; max-width:560px; line-height:1.7; }
+.button { border-radius:4px; min-height:44px; }
+.button-main:hover { background:#25488f; }
+.hero-facts { border-top:1px solid var(--line); padding-top:20px; margin-top:30px; font-weight:500; }
+.hero-facts span::before { content:""; display:inline-block; width:5px; height:5px; background:var(--teal); border-radius:50%; vertical-align:middle; }
+.hero-frame { margin:0; border-radius:3px; box-shadow:0 14px 35px rgba(28,37,48,.1); }
+.frame-bar { background:#f1f3f6; border-color:var(--line); }
+.frame-dots i { background:#a8b4c2; }
+.proof { background:#e8edf4; color:var(--ink); border-block:1px solid var(--line); }
+.proof-grid { padding-top:24px; padding-bottom:24px; }
+.proof-grid p { border-color:#cbd4df; }
+.proof-grid strong { font:700 15px/1.4 ui-sans-serif,system-ui,sans-serif; }
+.proof-grid span { color:var(--muted); }
+.proof-grid code { color:var(--teal); }
+.section { padding-top:96px; padding-bottom:96px; }
+.section-head { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:40px; align-items:end; max-width:none; padding-bottom:24px; border-bottom:1px solid var(--line); }
+.section-head h2 { font-family:"Ubuntu",sans-serif; font-size:clamp(2rem,3vw,3rem); font-weight:700; letter-spacing:-.03em; margin:0; }
+.section-head p { font-size:15px; max-width:50ch; }
+.step { border-radius:3px; }
+.step-top { color:var(--ink); letter-spacing:.04em; font-size:12px; }
+th { font-size:12px; }
+.step pre,.send-example pre { background:var(--code); }
+.send-example { background:#e9eef6; border-radius:3px; }
+.send-example h3,.limits-grid h3 { font-family:ui-sans-serif,system-ui,sans-serif; font-size:20px; }
+.workflow { background:#fff; }
+.workflow-points>div { border:0; margin-left:0; padding-left:0; }
+.mobile-pair img { border-radius:4px; box-shadow:0 12px 30px rgba(28,37,48,.12); }
+.table-wrap { border-radius:3px; }
+th { background:#e8edf4; color:var(--ink); }
+td:first-child { color:var(--teal); }
+tr:nth-child(even) td { background:#f4f6f8; }
+td code,.reference-notes code,.limits code,.step p code { background:#e8edf4; color:#263e6e; }
+.limits { background:#e9eef6; }
+.limits-grid { background:#cbd4df; border-color:#cbd4df; border-radius:3px; }
+.docker-note { border-radius:3px; background:var(--ink); }
+.footer { background:var(--ink); }
+@media(max-width:900px) { .hero { grid-template-columns:1fr; gap:40px; padding-top:65px; } .hero-frame { max-width:850px; } }
+@media(max-width:680px) { .hero { padding-top:48px; padding-bottom:60px; } h1 { font-size:2.8rem; } .hero-frame { margin-top:0; } .section-head { grid-template-columns:1fr; gap:14px; } .section-head h2 { font-size:2rem; } .proof-grid p,.proof-grid p:nth-child(2),.proof-grid p:last-child { border-color:#cbd4df; } }

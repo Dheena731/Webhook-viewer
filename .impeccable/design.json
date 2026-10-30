@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-30T16:06:23.1558325+05:30",
+  "title": "Design System: Thoondil",
+  "extensions": {
+    "shadows": [
+      {
+        "name": "mobile-sidebar",
+        "value": "8px 0 24px rgba(28,37,48,.18)",
+        "purpose": "Separate the open mobile sidebar from the workspace."
+      },
+      {
+        "name": "documentation-frame",
+        "value": "0 14px 35px rgba(28,37,48,.1)",
+        "purpose": "Lift the application screenshot in documentation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "0.15s",
+        "purpose": "Control state changes; reduced-motion settings suppress nonessential transitions."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "viewer-menu",
+        "value": "960px"
+      },
+      {
+        "name": "mobile",
+        "value": "680px"
+      },
+      {
+        "name": "docs-hero",
+        "value": "900px"
+      }
+    ],
+    "typographyMeta": {
+      "display": {
+        "displayName": "Documentation display",
+        "purpose": "Self-hosted Ubuntu for documentation display and section headings."
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The principal action in the viewer.",
+      "html": "<button class=\"ds-primary\">Send demo</button>",
+      "css": ".ds-primary { background: var(--primary, #315ab7); color: #fff; border: 0; border-radius: 6px; padding: 8px 14px; font: 600 13px ui-sans-serif, system-ui, sans-serif; transition: background .15s; } .ds-primary:hover { background: var(--primary-hover, #25488f); } .ds-primary:focus-visible { outline: 2px solid var(--primary, #315ab7); outline-offset: 3px; }"
+    },
+    {
+      "name": "Search field",
+      "kind": "input",
+      "description": "A compact bordered search field.",
+      "html": "<input class=\"ds-search\" placeholder=\"Search events\" aria-label=\"Search events\">",
+      "css": ".ds-search { height: 38px; padding: 0 12px; background: var(--bg-base, #f7f8fa); color: var(--text-primary, #1c2530); border: 1px solid var(--border, #dce2e8); border-radius: 6px; font: 13px ui-sans-serif, system-ui, sans-serif; } .ds-search:focus-visible { outline: 2px solid var(--primary, #315ab7); outline-offset: 2px; }"
+    },
+    {
+      "name": "Selected event",
+      "kind": "custom",
+      "refersTo": "event-selected",
+      "description": "A selected row in the request ledger.",
+      "html": "<div class=\"ds-event\"><strong>POST</strong> <code>/hooks/example</code></div>",
+      "css": ".ds-event { padding: 17px 20px; background: var(--bg-selected, #edf2fc); color: var(--text-primary, #1c2530); border-bottom: 1px solid var(--border, #dce2e8); box-shadow: inset 3px 0 var(--primary, #315ab7); font: 13px ui-sans-serif, system-ui, sans-serif; } .ds-event code { font-family: ui-monospace, Consolas, monospace; }"
+    },
+    {
+      "name": "Active endpoint",
+      "kind": "nav",
+      "description": "The selected endpoint in the sidebar.",
+      "html": "<nav><a class=\"ds-endpoint\" href=\"#endpoint\">example</a></nav>",
+      "css": ".ds-endpoint { display: block; padding: 8px 14px; border-radius: 4px; background: var(--bg-selected, #edf2fc); color: var(--text-primary, #1c2530); font: 13px ui-sans-serif, system-ui, sans-serif; text-decoration: none; } .ds-endpoint:hover { background: var(--bg-hover, #e9edf3); } .ds-endpoint:focus-visible { outline: 2px solid var(--primary, #315ab7); outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Request Ledger",
+    "overview": "A precise developer tool and technical manual. Data leads, supported by fine rules, restrained color, and clear alignment.",
+    "keyCharacteristics": [
+      "Dense, scannable request rows",
+      "Quiet hook identity",
+      "Ubuntu documentation headings, system sans-serif interface, and monospace technical values",
+      "Flat surfaces and fine dividers"
+    ],
+    "dos": [
+      "Keep request details more prominent than decoration.",
+      "Pair status color with text and preserve visible focus.",
+      "Respect reduced-motion preferences."
+    ],
+    "donts": [
+      "Do not surround routine ledger content with floating cards."
+    ]
+  }
+}
