@@ -1,67 +1,454 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="warm-sand">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Webhook Viewer</title>
+    <title>Thoondil — Webhook Inspector</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <main>
-      <header>
-        <div>
-          <p class="eyebrow">MICROSERVICE TOOLBOX</p>
-          <h1>Webhook Viewer</h1>
-          <p class="subtitle">Inspect incoming webhook requests as they arrive.</p>
-        </div>
-        <div class="status-wrap">
-          <span id="status-dot" class="status-dot"></span>
-          <span id="status">Connecting…</span>
-        </div>
-      </header>
-
-      <section class="endpoint-card">
-        <div>
-          <span class="label">SEND WEBHOOKS TO</span>
-          <code id="endpoint"></code>
-        </div>
-        <button id="copy" type="button">Copy URL</button>
-      </section>
-
-      <section class="toolbar">
-        <div>
-          <strong id="count">0 requests</strong>
-          <span id="empty-hint">Waiting for the first webhook</span>
-        </div>
-        <button id="clear" class="ghost" type="button">Clear all</button>
-      </section>
-
-      <section id="events" class="events" aria-live="polite"></section>
-    </main>
-
-    <template id="event-template">
-      <article class="event-card">
-        <button class="event-summary" type="button">
-          <span class="method"></span>
-          <span class="path"></span>
-          <span class="size"></span>
-          <time></time>
-          <span class="chevron">⌄</span>
-        </button>
-        <div class="event-details">
-          <div class="detail-grid">
-            <div><span class="label">CLIENT</span><code class="client"></code></div>
-            <div><span class="label">EVENT ID</span><code class="event-id"></code></div>
+    <!-- Top Navigation Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <a href="/" class="brand" title="Thoondil home">
+          <img class="brand-icon" src="/static/favicon.svg" alt="" />
+          <div class="brand-text">
+            <span class="brand-name">thoondil</span>
+            <span class="brand-pill">LOCAL</span>
           </div>
-          <h2>Body</h2>
-          <pre class="body"></pre>
-          <h2>Headers</h2>
-          <pre class="headers"></pre>
-          <h2>Query</h2>
-          <pre class="query"></pre>
+        </a>
+      </div>
+
+      <div class="topbar-center">
+        <div class="search-bar" role="search">
+          <svg class="search-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13l3.8 3.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <input type="text" id="search-input" placeholder="Search events by path, body, headers… (Press /)" autocomplete="off" spellcheck="false" />
+          <div class="search-filters">
+            <select id="method-filter" title="Filter by HTTP method">
+              <option value="">All Verbs</option>
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="PATCH">PATCH</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+          </div>
         </div>
-      </article>
-    </template>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Live Connection Status -->
+        <div class="connection-pill" id="conn-pill" title="Server-Sent Events Realtime Stream">
+          <span id="status-dot" class="status-dot online"></span>
+          <span id="status-text">Live</span>
+        </div>
+
+        <!-- 1-Click Send Test Webhook -->
+        <button id="btn-send-demo" class="btn-topbar btn-demo" title="Send a sample webhook event right now (Key: T)">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M9 1L3 9h5l-1 6 7-9H9V1z" fill="currentColor"/></svg>
+          <span>Send Demo</span>
+        </button>
+
+        <!-- Audio notification toggle -->
+        <button id="btn-sound-toggle" class="btn-icon" title="Toggle audio chime on new incoming webhook">
+          <svg id="sound-icon-on" viewBox="0 0 16 16" fill="none"><path d="M8 2L4 5H1v6h3l4 3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M12 4.5a5 5 0 010 7M13.5 3a7.5 7.5 0 010 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <svg id="sound-icon-off" viewBox="0 0 16 16" fill="none" hidden><path d="M8 2L4 5H1v6h3l4 3V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M12 6l3 4M15 6l-3 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+
+        <!-- Theme Switcher -->
+        <button id="btn-theme-toggle" class="btn-icon" title="Switch between Warm Sand & Obsidian Dark theme">
+          <svg id="theme-icon-sun" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3.2" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.5 1.5M11.5 11.5L13 13M3 13l1.5-1.5M11.5 4.5L13 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <svg id="theme-icon-moon" viewBox="0 0 16 16" fill="none" hidden><path d="M13.5 10.5A6 6 0 115.5 2.5a4.8 4.8 0 008 8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </button>
+
+        <!-- Keyboard Shortcuts Help -->
+        <button id="btn-shortcuts" class="btn-icon" title="View keyboard shortcuts (Key: ?)">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M6 6.2a2 2 0 013.9.7c0 1.2-1.9 1.4-1.9 2.6M8 12.2h.01" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+
+        <!-- Docs Link -->
+        <a href="/docs" target="_blank" class="btn-icon" title="Open Documentation & API Specs">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 2.5A1.5 1.5 0 014.5 1h8A1.5 1.5 0 0114 2.5v11a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 013 13.5v-11z" stroke="currentColor" stroke-width="1.3"/><path d="M6 4.5h5M6 7.5h5M6 10.5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </a>
+
+        <!-- Export -->
+        <button id="btn-export" class="btn-ghost btn-sm" title="Export all captured events as JSON (Key: E)">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M8 1v8M5 6l3 3 3-3M3 11v2a1 1 0 001 1h8a1 1 0 001-1v-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Export</span>
+        </button>
+
+        <!-- Clear -->
+        <button id="btn-clear" class="btn-ghost btn-sm btn-danger" title="Clear all recorded events">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M3 4l1 9a1 1 0 001 1h6a1 1 0 001-1l1-9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Clear</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main 3-pane layout -->
+    <div class="workspace">
+
+      <!-- LEFT SIDEBAR: Channels & Rules -->
+      <aside class="sidebar" aria-label="Sidebar navigation">
+        <div class="sidebar-header">
+          <span class="sidebar-title">Endpoints &amp; Rules</span>
+          <button id="btn-add-mock" class="btn-icon-subtle" title="Create response mocking rule">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span class="sr-only">Add Mock Rule</span>
+          </button>
+        </div>
+
+        <!-- Endpoints Group -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">
+            <div class="sidebar-label">CHANNELS</div>
+            <button id="btn-add-channel" class="btn-icon-subtle" title="Create a new named channel">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <span class="sr-only">Add Channel</span>
+            </button>
+          </div>
+          <ul id="channel-list" class="channel-list">
+            <li class="channel-item active" data-channel="all" role="button" tabindex="0">
+              <span class="channel-icon">◈</span>
+              <span class="channel-name">All Inbound Events</span>
+              <span class="channel-badge" id="badge-all">0</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Inbound Target Box -->
+        <div class="sidebar-section">
+          <div class="sidebar-label">YOUR WEBHOOK URL</div>
+          <div class="endpoint-card">
+            <div class="endpoint-header">
+              <span class="endpoint-tag">LOCAL ENDPOINT</span>
+              <button id="btn-copy-url" class="btn-copy-tag" title="Copy endpoint URL to clipboard">
+                <svg viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                <span>Copy</span>
+              </button>
+            </div>
+            <code id="endpoint-url"></code>
+            <p class="endpoint-hint">Send GET, POST, PUT, PATCH, or DELETE to any path under /hooks/.</p>
+          </div>
+        </div>
+
+        <!-- Mock Rules -->
+        <div class="sidebar-section">
+          <div class="sidebar-label">MOCKING RULES</div>
+          <ul id="mock-rules-list" class="mock-rules-list">
+            <li class="mock-empty">No active mock rules · <a href="#" id="mock-empty-add" class="mock-add-link">+ Add one</a></li>
+          </ul>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+          <div class="shortcuts-legend">
+            <span><kbd>/</kbd> Search</span>
+            <span><kbd>j</kbd>/<kbd>k</kbd> Nav</span>
+            <span><kbd>t</kbd> Test</span>
+            <span><kbd>?</kbd> Help</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MIDDLE PANE: Event Stream List -->
+      <section class="event-list-pane" aria-label="Incoming webhooks feed">
+        <div class="event-list-header">
+          <div class="event-list-title-wrap">
+            <span id="event-count" class="event-count">0 requests</span>
+            <span id="stream-pulse" class="stream-pulse-active" title="Streaming live events"></span>
+          </div>
+          <div class="event-list-controls">
+            <label class="checkbox-label" title="Automatically jump to newly arrived events">
+              <input type="checkbox" id="chk-auto-scroll" checked />
+              <span>Auto-scroll</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state">
+          <h3 class="empty-title">Waiting for your first webhook</h3>
+          <p class="empty-desc">Send HTTP requests to your endpoint, or click below to trigger a live sample right away.</p>
+
+          <button id="btn-empty-demo" class="btn-primary btn-demo-large">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M9 1L3 9h5l-1 6 7-9H9V1z" fill="currentColor"/></svg>
+            <span>Trigger Demo Webhook</span>
+          </button>
+
+          <div class="curl-box">
+            <div class="curl-box-header">
+              <span>Or test with cURL</span>
+              <button id="btn-copy-curl" class="btn-copy-small">
+                <svg viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                <span>Copy Command</span>
+              </button>
+            </div>
+            <pre id="curl-example" class="curl-code"></pre>
+          </div>
+        </div>
+
+        <!-- Event List -->
+        <ul id="event-list" class="event-list" role="listbox" aria-label="Captured webhooks"></ul>
+      </section>
+
+      <!-- RIGHT PANE: Event Inspector -->
+      <section class="inspector-pane" id="inspector" aria-label="Request details inspector">
+        <button id="btn-back-feed" class="mobile-back" type="button">← Back to requests</button>
+        <!-- Inspector Unselected State -->
+        <div id="inspector-empty" class="inspector-empty">
+          <div class="inspector-empty-icon">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 3"/>
+              <path d="M24 16v10l6 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="inspector-empty-text">Select an event from the feed to inspect headers, JSON payloads, and query parameters</p>
+        </div>
+
+        <!-- Inspector Content -->
+        <div id="inspector-content" class="inspector-content" hidden>
+          <!-- Inspector Header -->
+          <div class="inspector-header">
+            <div class="inspector-top-row">
+              <div class="inspector-badge-wrap">
+                <span id="insp-method" class="method-badge method-post">POST</span>
+                <span id="insp-status" class="status-badge">202 Accepted</span>
+              </div>
+              <span id="insp-path" class="insp-path">/hooks/orders</span>
+              <button id="btn-pin" class="btn-icon-subtle" title="Pin this request to the top">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M10 2l-1.5 4H5l3 3-1 4 4-2.5L15 13l-1-4 3-3H13.5L10 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+
+            <div class="inspector-meta-bar">
+              <span class="meta-item"><span class="meta-label">Time:</span> <strong id="insp-time"></strong></span>
+              <span class="meta-sep">·</span>
+              <span class="meta-item"><span class="meta-label">Size:</span> <strong id="insp-size"></strong></span>
+              <span class="meta-sep">·</span>
+              <span class="meta-item"><span class="meta-label">IP:</span> <strong id="insp-client"></strong></span>
+              <span class="meta-sep">·</span>
+              <span class="meta-item"><span class="meta-label">ID:</span> <code id="insp-id" class="meta-id"></code></span>
+            </div>
+          </div>
+
+          <!-- Quick Actions Bar (Replay & Export) -->
+          <div class="inspector-actions">
+            <div class="quick-copy-group">
+              <button id="btn-copy-curl-insp" class="btn-action" title="Copy as ready-to-run curl command">
+                <svg viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.2" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                <span>Copy as cURL</span>
+              </button>
+              <button id="btn-copy-json-insp" class="btn-action" title="Copy full event object as JSON">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3 2h7l4 4v8a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3"/><path d="M10 2v4h4" stroke="currentColor" stroke-width="1.3"/></svg>
+                <span>Copy JSON</span>
+              </button>
+            </div>
+
+            <!-- Forward / Replay to Localhost -->
+            <div class="replay-group">
+              <div class="replay-input-wrap">
+                <span class="replay-prefix">TARGET:</span>
+                <input id="replay-url" type="text" placeholder="http://localhost:3000/webhook" class="replay-input" spellcheck="false" />
+              </div>
+              <button id="btn-replay" class="btn-primary btn-replay" title="Forward this captured event to your local app">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M14 8A6 6 0 112 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 4v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Replay</span>
+              </button>
+            </div>
+            <p class="replay-note">Original body bytes are sent to the target URL. Redacted credentials and connection headers are omitted.</p>
+          </div>
+
+          <!-- Replay Result Alert -->
+          <div id="replay-result" class="replay-result" hidden></div>
+
+          <!-- Inspector Tabs -->
+          <div class="inspector-tabs" role="tablist">
+            <button class="tab-btn active" data-tab="body" role="tab" aria-selected="true">
+              <span>Body</span>
+              <span id="tab-body-badge" class="tab-badge">JSON</span>
+            </button>
+            <button class="tab-btn" data-tab="headers" role="tab" aria-selected="false">
+              <span>Headers</span>
+              <span id="tab-headers-count" class="tab-badge-num">0</span>
+            </button>
+            <button class="tab-btn" data-tab="query" role="tab" aria-selected="false">
+              <span>Params</span>
+              <span id="tab-query-count" class="tab-badge-num">0</span>
+            </button>
+            <button class="tab-btn" data-tab="raw" role="tab" aria-selected="false">
+              <span>Raw</span>
+            </button>
+          </div>
+
+          <!-- Tab Panels -->
+          <div class="tab-content">
+            <!-- BODY TAB -->
+            <div id="tab-body" class="tab-pane active" role="tabpanel">
+              <div class="body-toolbar">
+                <div class="body-toolbar-left">
+                  <span id="body-format-badge" class="format-badge format-json">JSON</span>
+                  <button id="btn-toggle-all-json" class="btn-subtle-sm" title="Expand or Collapse all JSON nodes">Expand All</button>
+                </div>
+                <div class="body-toolbar-right">
+                  <button id="btn-copy-body" class="btn-copy-small">
+                    <svg viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                    <span>Copy Body</span>
+                  </button>
+                </div>
+              </div>
+              <div id="body-viewer" class="body-viewer"></div>
+            </div>
+
+            <!-- HEADERS TAB -->
+            <div id="tab-headers" class="tab-pane" role="tabpanel" hidden>
+              <div class="pane-toolbar">
+                <span class="pane-toolbar-title">INCOMING HTTP HEADERS</span>
+                <span class="redact-note">⚠️ Sensitive values like Authorization, Cookie, API keys are auto-redacted</span>
+              </div>
+              <div id="headers-viewer" class="kv-table"></div>
+            </div>
+
+            <!-- QUERY PARAMS TAB -->
+            <div id="tab-query" class="tab-pane" role="tabpanel" hidden>
+              <div class="pane-toolbar">
+                <span class="pane-toolbar-title">URL QUERY PARAMETERS</span>
+              </div>
+              <div id="query-viewer" class="kv-table"></div>
+            </div>
+
+            <!-- RAW TAB -->
+            <div id="tab-raw" class="tab-pane" role="tabpanel" hidden>
+              <div class="body-toolbar">
+                <span class="pane-toolbar-title">FULL JSON REPRESENTATION</span>
+                <button id="btn-copy-raw" class="btn-copy-small">
+                  <svg viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                  <span>Copy Raw</span>
+                </button>
+              </div>
+              <pre id="raw-viewer" class="raw-viewer"></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Mock Rule Modal -->
+    <div id="mock-modal" class="modal-backdrop" hidden>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mock-modal-title">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <svg class="modal-title-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h2 id="mock-modal-title">Configure Mock Response</h2>
+          </div>
+          <button id="btn-close-modal" class="btn-close" aria-label="Close dialog">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-intro">Inject custom HTTP response status codes and mock bodies for matching incoming webhook calls.</p>
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label for="mock-path">Path Match (contains)</label>
+              <input id="mock-path" type="text" placeholder="/hooks/orders" spellcheck="false" />
+              <span class="form-hint">E.g. `/orders` or `/payments`</span>
+            </div>
+            <div class="form-group flex-1">
+              <label for="mock-method">Method</label>
+              <select id="mock-method">
+                <option value="">Any Verb</option>
+                <option value="POST">POST</option>
+                <option value="GET">GET</option>
+                <option value="PUT">PUT</option>
+                <option value="PATCH">PATCH</option>
+                <option value="DELETE">DELETE</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="mock-status">Response HTTP Status</label>
+              <input id="mock-status" type="number" value="200" min="100" max="599" />
+            </div>
+            <div class="form-group flex-2">
+              <label>Intercept Mode</label>
+              <label class="toggle-control">
+                <input id="mock-intercept" type="checkbox" />
+                <span class="toggle-slider"></span>
+                <span class="toggle-text">Respond immediately without recording to log</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mock-body">Response Body (JSON or plain text)</label>
+            <textarea id="mock-body" rows="4" placeholder='{"received": true, "status": "processed", "mock": true}' spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-cancel-modal" class="btn-ghost" type="button">Cancel</button>
+          <button id="btn-save-mock" class="btn-primary" type="button">Save Mock Rule</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Channel Modal -->
+    <div id="channel-modal" class="modal-backdrop" hidden>
+      <div class="modal modal-sm" role="dialog" aria-modal="true" aria-labelledby="channel-modal-title">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <svg class="modal-title-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h2 id="channel-modal-title">Create New Channel</h2>
+          </div>
+          <button id="btn-close-channel-modal" class="btn-close" aria-label="Close dialog">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-intro">Channels allow you to separate incoming webhooks by service (e.g. Stripe, Shopify, GitHub, Auth).</p>
+          <div class="form-group">
+            <label for="new-channel-name">Channel Name</label>
+            <input id="new-channel-name" type="text" placeholder="e.g. stripe, billing, or github" spellcheck="false" autocomplete="off" />
+            <span class="form-hint">Will receive webhooks at: <strong id="new-channel-preview" style="color:var(--primary)">/hooks/stripe</strong></span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-cancel-channel-modal" class="btn-ghost" type="button">Cancel</button>
+          <button id="btn-save-channel" class="btn-primary" type="button">Create Channel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcuts-modal" class="modal-backdrop" hidden>
+      <div class="modal modal-sm" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <h2 id="shortcuts-title">Keyboard Shortcuts</h2>
+          </div>
+          <button id="btn-close-shortcuts" class="btn-close" aria-label="Close dialog">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="shortcuts-grid">
+            <div class="shortcut-row"><span class="shortcut-desc">Focus Search &amp; Filter</span><kbd>/</kbd></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Next Webhook Event</span><kbd>j</kbd> or <kbd>↓</kbd></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Previous Webhook Event</span><kbd>k</kbd> or <kbd>↑</kbd></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Send Test Webhook</span><kbd>t</kbd></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Export All Events (JSON)</span><kbd>e</kbd></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Close Modal / Clear Search</span><kbd>Esc</kbd></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Open Keyboard Shortcuts</span><kbd>?</kbd></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-dismiss-shortcuts" class="btn-primary">Got it</button>
+        </div>
+      </div>
+    </div>
 
     <script src="/static/app.js" defer></script>
   </body>

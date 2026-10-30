@@ -8,6 +8,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 COPY server.py ./
 COPY static/ ./static/
+COPY docs/ ./docs/
 
 USER 10001:10001
 EXPOSE 8080
