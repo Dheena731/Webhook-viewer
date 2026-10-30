@@ -106,6 +106,16 @@ body { font-size:13px; }
   .mobile-menu-open .sidebar { top:calc(var(--topbar-h) + 90px); }
 }
 
+.search-filters { position:relative; flex-shrink:0; }
+.method-trigger { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:4px; color:var(--text-secondary); font-size:12px; font-weight:600; white-space:nowrap; }
+.method-trigger:hover,.method-trigger[aria-expanded="true"] { background:var(--bg-hover); color:var(--text-primary); }
+.method-trigger svg { width:14px; height:14px; }
+.method-menu { position:absolute; z-index:150; top:calc(100% + 8px); right:-10px; min-width:166px; padding:5px; border:1px solid var(--border); border-radius:6px; background:var(--bg-card); box-shadow:0 8px 24px rgba(0,0,0,.16); }
+.method-menu button { display:flex; width:100%; align-items:center; min-height:34px; padding:7px 10px; border-radius:4px; text-align:left; color:var(--text-primary); font-size:13px; }
+.method-menu button:hover,.method-menu button:focus-visible { background:var(--bg-hover); }
+.method-menu button[aria-checked="true"] { background:var(--bg-selected); color:var(--primary); font-weight:700; }
+.method-menu button[aria-checked="true"]::after { content:"✓"; margin-left:auto; }
+
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
 
 /* Familiar API workbench conventions, adapted to received webhooks. */

@@ -29,7 +29,7 @@
           </svg>
           <input type="text" id="search-input" aria-label="Search events" placeholder="Search events by path, body, headers… (Press /)" autocomplete="off" spellcheck="false" />
           <div class="search-filters">
-            <select id="method-filter" title="Filter by HTTP method">
+            <select id="method-filter" hidden aria-hidden="true" tabindex="-1">
               <option value="">All methods</option>
               <option value="GET">GET</option>
               <option value="POST">POST</option>
@@ -37,6 +37,18 @@
               <option value="PATCH">PATCH</option>
               <option value="DELETE">DELETE</option>
             </select>
+            <button type="button" id="method-trigger" class="method-trigger" aria-label="Filter by HTTP method" aria-haspopup="menu" aria-expanded="false" aria-controls="method-menu">
+              <span id="method-label">All methods</span>
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="method-menu" class="method-menu" role="menu" aria-label="HTTP method" hidden>
+              <button type="button" role="menuitemradio" aria-checked="true" data-method="">All methods</button>
+              <button type="button" role="menuitemradio" aria-checked="false" data-method="GET">GET</button>
+              <button type="button" role="menuitemradio" aria-checked="false" data-method="POST">POST</button>
+              <button type="button" role="menuitemradio" aria-checked="false" data-method="PUT">PUT</button>
+              <button type="button" role="menuitemradio" aria-checked="false" data-method="PATCH">PATCH</button>
+              <button type="button" role="menuitemradio" aria-checked="false" data-method="DELETE">DELETE</button>
+            </div>
           </div>
         </div>
       </div>

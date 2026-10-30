@@ -420,6 +420,62 @@ function renderEventList() {
   }
 }
 
+const methodTrigger = $('#method-trigger');
+const methodMenu = $('#method-menu');
+const methodOptions = $$('[data-method]', methodMenu);
+function syncMethodMenu() {
+  const value = dom.methodFilter.value;
+  $('#method-label').textContent = value || 'All methods';
+  methodOptions.forEach(option => option.setAttribute('aria-checked', String(option.dataset.method === value)));
+}
+function closeMethodMenu(restoreFocus = false) {
+  methodMenu.hidden = true;
+  methodTrigger.setAttribute('aria-expanded', 'false');
+  if (restoreFocus) methodTrigger.focus();
+}
+methodTrigger.addEventListener('click', () => {
+  if (!methodMenu.hidden) return closeMethodMenu();
+  methodMenu.hidden = false;
+  methodTrigger.setAttribute('aria-expanded', 'true');
+  (methodOptions.find(option => option.dataset.method === dom.methodFilter.value) || methodOptions[0]).focus();
+});
+methodTrigger.addEventListener('keydown', event => {
+  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+  event.preventDefault();
+  methodMenu.hidden = false;
+  methodTrigger.setAttribute('aria-expanded', 'true');
+  methodOptions[event.key === 'ArrowUp' ? methodOptions.length - 1 : 0].focus();
+});
+methodOptions.forEach(option => option.addEventListener('click', () => {
+  dom.methodFilter.value = option.dataset.method;
+  syncMethodMenu();
+  applyFilters();
+  closeMethodMenu(true);
+}));
+methodMenu.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    event.stopPropagation();
+    closeMethodMenu(true);
+    return;
+  }
+  const index = methodOptions.indexOf(document.activeElement);
+  let next;
+  if (event.key === 'ArrowDown') next = (index + 1) % methodOptions.length;
+  else if (event.key === 'ArrowUp') next = (index - 1 + methodOptions.length) % methodOptions.length;
+  else if (event.key === 'Home') next = 0;
+  else if (event.key === 'End') next = methodOptions.length - 1;
+  else return;
+  event.preventDefault();
+  methodOptions[next].focus();
+});
+methodMenu.addEventListener('focusout', event => {
+  if (event.relatedTarget !== methodTrigger && !methodMenu.contains(event.relatedTarget)) closeMethodMenu();
+});
+document.addEventListener('click', event => {
+  if (!event.target.closest('.search-filters')) closeMethodMenu();
+});
+
 function createEventItem(event, index) {
   const li = document.createElement('li');
   li.className = 'event-item' +
@@ -1080,6 +1136,7 @@ $$('.rail-button').forEach(button => button.addEventListener('click', () => setW
 $('#btn-clear-filters').addEventListener('click', () => {
   dom.searchInput.value = '';
   dom.methodFilter.value = '';
+  syncMethodMenu();
   setChannel('all');
   dom.searchInput.focus();
 });
